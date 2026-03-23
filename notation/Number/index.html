@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Number JS Notation Converter</title>
+</head>
+<body>
+<textarea id="input" placeholder="Enter expression like 10^10"></textarea>
+<button onclick="convert()">Convert</button>
+<textarea id="output" placeholder="Result"></textarea>
+
+<script>
+function convert(){
+    const input = document.getElementById("input").value.trim();
+    const output = document.getElementById("output");
+    try{
+        if(!input.match(/^[0-9+\-*/^().\s]+$/)){
+            throw "NumberError: Unexpected type: NaN";
+        }
+        let expr = input.replace(/\^/g,"**");
+        let result = Function("return ("+expr+")")();
+        if(!isFinite(result)){
+            throw "LimitRangeError: Number exceeded the limit of range is Infinity";
+        }
+        output.value = result;
+    }catch(e){
+        output.value = e;
+    }
+}
+</script>
+</body>
+</html>
