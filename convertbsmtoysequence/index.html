@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>BMS / Y-Sequence Converter</title>
+</head>
+<body>
+
+<h3>BMS Converter</h3>
+<textarea id="bmsInput">(1,8,6)(0,2,1)(0,3,5)</textarea>
+<button onclick="convertBMS()">Convert BMS</button>
+
+<h3>Y-Sequence Converter</h3>
+<textarea id="yInput">0,6,4</textarea>
+<button onclick="convertY()">Convert Y-Sequence</button>
+
+<div class="output" id="output"></div>
+
+<script>
+function convertBMS(){
+    let input=document.getElementById("bmsInput").value.trim();
+    let matches=input.match(/\((.*?)\)/g);
+    if(!matches){document.getElementById("output").innerText="BMSError: Error - Unexpected standard and is NaN";return;}
+    let result=[];
+    for(let m of matches){
+        let parts=m.replace(/[()]/g,"").split(",");
+        if(parts.length!==3){document.getElementById("output").innerText="BMSError: Error - Unexpected standard and is NaN";return;}
+        let nums=parts.map(n=>Number(n));
+        if(nums.some(n=>isNaN(n))){document.getElementById("output").innerText="BMSError: Error - Unexpected standard and is NaN";return;}
+        result.push(nums[0]+nums[1]+nums[2]);
+    }
+    document.getElementById("output").innerText="BMS Converted:\n"+result.join(",");
+}
+
+function convertY(){
+    let input=document.getElementById("yInput").value.trim();
+    let parts=input.split(",");
+    let nums=parts.map(n=>Number(n));
+    if(nums.some(n=>isNaN(n))){
+        document.getElementById("output").innerText="YSequenceError: Y-Sequence is not a standard";
+        return;
+    }
+    let result=[];
+    for(let i=0;i<nums.length;i++){
+        result.push(nums[i]*i);
+    }
+    document.getElementById("output").innerText=""+result.join(",");
+}
+</script>
+
+</body>
+</html>
