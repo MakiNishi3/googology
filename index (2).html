@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Converter</title>
+<style>
+body{font-family:sans-serif;background:#fff;color:#000;padding:20px}
+	font-family: monospace;
+</style>
+</head>
+<body>
+
+<h3>VECTS</h3>
+<input id="vectsInput" placeholder="(1+1,1)">
+<button onclick="convertVECTS()">Convert VECTS</button>
+<textarea id="vectsOutput"></textarea>
+
+<h3>SPPRS</h3>
+<input id="spprsInput" placeholder="10+10">
+<button onclick="convertSPPRS()">Convert SPPRS</button>
+<textarea id="spprsOutput"></textarea>
+
+<script>
+function convertVECTS(){
+let input=document.getElementById("vectsInput").value.trim()
+let out=document.getElementById("vectsOutput")
+if(!input.startsWith("(")||!input.endsWith(")")){out.value="VECTS ERROR: Error - Unexpected type NaN";return}
+let parts=input.slice(1,-1).split(",")
+if(parts.length!==2){out.value="VECTS ERROR: Error - Unexpected type NaN";return}
+let a=eval(parts[0])
+let b=eval(parts[1])
+if(isNaN(a)||isNaN(b)){out.value="VECTS ERROR: Error - Unexpected type NaN";return}
+out.value="("+a+","+b+")"
+}
+
+function convertSPPRS(){
+let input=document.getElementById("spprsInput").value.trim()
+let out=document.getElementById("spprsOutput")
+if(!input.includes("+")){out.value="SPPRS ERROR: Error - Expected a plus and symbols sign";return}
+let parts=input.split("+")
+if(parts.length!==2){out.value="SPPRS ERROR: Error - Expected a plus and symbols sign";return}
+let a=parseFloat(parts[0])
+let b=parseFloat(parts[1])
+if(isNaN(a)||isNaN(b)){out.value="SPPRS ERROR: Error - Expected a plus and symbols sign";return}
+out.value=(a+b).toString()
+}
+</script>
+
+</body>
+</html>

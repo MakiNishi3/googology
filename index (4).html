@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Break Eternity Converter</title>
+<script src="https://github.com/Patashu/break_eternity.js/raw/refs/heads/master/break_eternity.js"></script>
+</head>
+<body>
+<textarea id="input" style="width:100%;height:150px;"></textarea>
+<button onclick="convert()">Convert</button>
+<textarea id="output" style="width:100%;height:150px;"></textarea>
+
+<script>
+function convert(){
+    const input = document.getElementById("input").value.trim();
+    const output = document.getElementById("output");
+
+    try{
+        if(!input) throw "NumberError: Unexpected type: NaN";
+
+        let value;
+
+        if(input.includes("^")){
+            const parts = input.split("^");
+            if(parts.length !== 2) throw "NumberError: Unexpected type: NaN";
+
+            const base = new Decimal(parts[0]);
+            const exp = new Decimal(parts[1]);
+
+            if(base.isNaN() || exp.isNaN()) throw "NumberError: Unexpected type: NaN";
+
+            value = base.pow(exp);
+        } else {
+            value = new Decimal(input);
+        }
+
+        if(!value || value.isNaN()) throw "NumberError: Unexpected type: NaN";
+
+        if(!value.isFinite()) throw "LimitRangeError: Number exceeded the limit of range is Infinity";
+
+        output.value = value.toString();
+    } catch(e){
+        output.value = e.toString();
+    }
+}
+</script>
+</body>
+</html>

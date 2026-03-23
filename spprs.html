@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Converter</title>
+</head>
+<body>
+
+<textarea id="birdInput" placeholder="{10, 10}"></textarea>
+<button onclick="convertBird()">Convert Bird Array Notation</button>
+<textarea id="birdOutput"></textarea>
+
+<textarea id="opInput" placeholder="10^10"></textarea>
+<button onclick="convertOp()">Convert Operation Notation</button>
+<textarea id="opOutput"></textarea>
+
+<script>
+function convertBird(){
+    const input=document.getElementById("birdInput").value.trim();
+    try{
+        if(!/^\{\s*\d+\s*,\s*\d+\s*\}$/.test(input)){
+            throw "BirdArrayNotationError: BAN is not a standard";
+        }
+        let nums=input.replace(/[{}]/g,"").split(",").map(x=>parseInt(x.trim()));
+        if(nums.some(isNaN)){
+            throw "BirdArrayNotationError: BAN is not a standard";
+        }
+        document.getElementById("birdOutput").value=nums.join(",");
+    }catch(e){
+        document.getElementById("birdOutput").value=e;
+    }
+}
+
+function convertOp(){
+    const input=document.getElementById("opInput").value.trim();
+    try{
+        if(!/^\d+\^\d+$/.test(input)){
+            throw "OperationNotationError: Unexpected standard at NotationException as NaN";
+        }
+        let parts=input.split("^").map(x=>parseInt(x));
+        if(parts.some(isNaN)){
+            throw "OperationNotationError: Unexpected standard at NotationException as NaN";
+        }
+        let result=Math.pow(parts[0],parts[1]);
+        document.getElementById("opOutput").value=result;
+    }catch(e){
+        document.getElementById("opOutput").value=e;
+    }
+}
+</script>
+
+</body>
+</html>

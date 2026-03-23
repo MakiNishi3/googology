@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Confractus Numerus Converter</title>
+</head>
+<body>
+<textarea id="input" rows="10" cols="50">10^200</textarea>
+<br>
+<button onclick="convert()">Convert</button>
+<br>
+<textarea id="output" rows="10" cols="50"></textarea>
+<script src="https://github.com/aarextiaokhiao/magna_numerus.js/raw/refs/heads/master/confractus_numerus.js"></script>
+<script>
+function convert(){
+try{
+let input=document.getElementById("input").value.trim();
+if(!input)return;
+let result;
+if(input.includes("^")){
+let parts=input.split("^");
+let base=parseFloat(parts[0]);
+let exp=parseFloat(parts[1]);
+if(isNaN(base)||isNaN(exp))throw "NumberError: Unexpected type: NaN";
+result=Math.pow(base,exp);
+}else{
+result=parseFloat(input);
+if(isNaN(result))throw "NumberError: Unexpected type: NaN";
+}
+if(!isFinite(result))throw "LimitRangeError: Number exceeded the limit of range because the number is Infinity";
+if(typeof ConfractusNumerus!=="undefined"){
+result=ConfractusNumerus.fromNumber(result).toString();
+}
+document.getElementById("output").value=result;
+}catch(e){
+document.getElementById("output").value=e;
+}
+}
+</script>
+</body>
+</html>
